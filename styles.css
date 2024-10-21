@@ -2,7 +2,7 @@ body {
     margin: 0;
     overflow: hidden;
     position: relative;
-    background-color: #4D4D4D; /* Donkergrijs achtergrond voor defensiethema */
+    background-color: #1C1C1C; /* Donkerblauw/grijze achtergrond voor Defensie stijl */
     color: #FFFFFF; /* Witte tekst voor contrast */
     font-family: 'Arial', sans-serif; /* Gebruik een simpel lettertype */
 }
@@ -24,37 +24,68 @@ body {
 }
 
 #start-quiz-button {
-    padding: 10px 20px;
-    font-size: 24px;
-    background-color: #4CAF50; /* Groene achtergrond */
+    padding: 15px 30px;
+    font-size: 26px;
+    background-color: #003366; /* Defensie blauw */
     color: white; /* Witte tekst */
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 #start-quiz-button:hover {
-    background-color: #45a049; /* Donkerder groen bij hover */
+    background-color: #002244; /* Donkerder blauw bij hover */
 }
 
-.volume-control {
+.control-container {
     position: absolute;
-    bottom: 10px; /* Linksonder */
-    left: 60px; /* Ruimte voor pauzeknop */
-    z-index: 10;
-    background: none;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Vergroot de ruimte tussen de knoppen */
+    background: rgba(0, 0, 51, 0.7); /* Donker transparante achtergrond in defensiestijl */
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 15;
+}
+
+.control-container i {
+    color: #FFFFFF; /* Witte kleur voor iconen, kan ook worden aangepast naar een andere kleur */
+    font-size: 24px; /* Grootte van de iconen */
+}
+
+.pause-control, .volume-control {
+    width: 50px; /* Maak de knop breder */
+    height: 50px; /* Maak de knop hoger */
+    background-size: 60%; /* Zorg ervoor dat het icoon niet te groot is binnen de knop */
+    background-repeat: no-repeat;
+    background-position: center;
     border: none;
-    font-size: 24px;
     cursor: pointer;
-    color: #FFFFFF; /* Witte tekst voor het volume-icoon */
+    border-radius: 50%;
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Voeg een mooie overgang toe */
+    background-color: #003366; /* Defensie blauw voor de knoppen */
+    display: flex; /* Zorg ervoor dat de iconen goed gecentreerd zijn */
+    justify-content: center;
+    align-items: center;
+}
+
+.pause-control:hover, .volume-control:hover {
+    transform: scale(1.1); /* Iets vergroten bij hover voor betere gebruiksvriendelijkheid */
+    background-color: #004488; /* Blauw accent bij hover */
 }
 
 .slider-container {
     display: none;
     position: absolute;
-    bottom: 50px; /* Ruimte voor knoppen */
-    left: 10px; /* Ruimte voor knoppen */
-    z-index: 10;
+    top: 25px; /* Houd deze hoogte consistent boven of onder de knoppen */
+    left: 175px; /* Zorg dat deze naar rechts verschuift ten opzichte van de knoppen */
+    z-index: 15;
+    background: rgba(0, 0, 51, 0.7); /* Donker transparante achtergrond in defensiestijl */
+    padding: 10px;
+    border-radius: 8px;
 }
 
 .slider {
@@ -62,7 +93,7 @@ body {
     appearance: none; /* Voor andere browsers */
     width: 200px; /* Breedte van de slider */
     height: 10px; /* Hoogte van de slider */
-    background: #7D7D7D; /* Grijze balk voor de slider */
+    background: #007BFF; /* Defensie blauw */
     border-radius: 5px; /* Hoekjes van de slider afronden */
     outline: none; /* Geen rand om de slider */
 }
@@ -92,7 +123,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Semi-transparante achtergrond */
+    background: rgba(0, 0, 51, 0.8); /* Donker transparante achtergrond in defensiestijl */
     color: white;
     text-align: center;
     justify-content: center;
@@ -104,46 +135,75 @@ body {
 .button-container {
     display: flex; /* Gebruik flexbox voor de knoppen */
     justify-content: center; /* Horizontaal centreren */
-    margin-top: 5px; /* Ruimte tussen de vraag en de knoppen */
-}
-
-.pause-control {
-    position: absolute;
-    bottom: 10px; /* Linksonder */
-    left: 10px; /* Linksonder */
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #FFFFFF; /* Witte tekst voor het pauze-icoon */
-    z-index: 10;
+    margin-top: 5px; /* Verminder de ruimte tussen de vraag en de knoppen */
+    gap: 10px; /* Verminder de afstand tussen de knoppen */
 }
 
 .answer {
-    background-color: #007BFF; /* Blauw voor de antwoordknoppen */
+    background-color: #003366; /* Defensie blauw voor de antwoordknoppen */
     color: #FFFFFF; /* Witte tekst */
     border: none;
-    padding: 10px 10px;
-    margin: 10px; /* Ruimte rond de knoppen */
+    padding: 10px 12px; /* Verminder de padding in de knoppen */
+    margin: 10px; /* Verminder de ruimte rond de knoppen */
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 18px;
-    width: 100px; /* Vaste breedte voor de knoppen */
+    width: 100px; /* Verminder de breedte van de knoppen */
+    transition: background-color 0.3s ease;
 }
 
 .answer:hover {
-    background-color: #0056b3; /* Donkerder blauw bij hover */
+    background-color: #002244; /* Donkerder blauw bij hover */
 }
 
 .question {
-    margin: 10px; /* Ruimte rond de vraag */
-    text-align: center; /* Centrer de tekst */
-    font-size: 24px; /* Grootte van de vraag */
+    margin: 10px 0; /* Verminder de ruimte rond de vraag */
+    text-align: center; /* Centreer de tekst */
+    font-size: 26px; /* Grootte van de vraag */
 }
 
 .message {
     margin: 20px; /* Ruimte rond het bericht */
-    font-size: 18px; /* Grootte van het bericht */
-    color: yellow; /* Kleur van de tekst voor beter zichtbaarheid */
-    text-align: center; /* Centrer de tekst */
+    font-size: 20px; /* Grootte van het bericht */
+    color: #FFD700; /* Goudkleurige tekst voor betere zichtbaarheid en Defensie stijl */
+    text-align: center; /* Centreer de tekst */
+}
+
+@media only screen and (max-width: 768px) {
+    #control-container {
+        top: 5px;
+        left: 5px;
+        gap: 5px;
+        padding: 8px;
+    }
+    
+    #start-quiz-button {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+
+    .answer {
+        width: auto; /* Verwijder vaste breedte voor flexibiliteit */
+        padding: 10px;
+    }
+
+    .question {
+        font-size: 4vw; /* De vraaggrootte wordt aangepast aan de breedte van het scherm */
+    }
+
+    .control-container {
+        gap: 5px; /* Verminder ruimte tussen knoppen */
+        padding: 5px; /* Minder padding voor kleinere schermen */
+    }
+
+    .slider-container {
+        width: 80%; /* Zorg ervoor dat de slider goed past op kleinere schermen */
+    }
+
+    .pause-control, .volume-control {
+        width: 50px; /* Maak de knoppen groter voor aanraakfunctionaliteit */
+        height: 50px;
+    }
+    
+    
 }
