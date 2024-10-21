@@ -13,6 +13,16 @@ body {
     object-fit: cover;
 }
 
+#start-quiz-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Volledige hoogte van het venster */
+    position: absolute;
+    width: 100%;
+    z-index: 10; /* Zorg ervoor dat het boven de video staat */
+}
+
 #start-quiz-button {
     padding: 10px 20px;
     font-size: 24px;
@@ -27,17 +37,13 @@ body {
     background-color: #45a049; /* Donkerder groen bij hover */
 }
 
-
 #score {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    color: #FFFFFF; /* Witte tekst voor score */
-    font-size: 24px;
-    z-index: 10;
-    background-color: rgba(0, 0, 0, 0.6); /* Donkere achtergrond voor leesbaarheid */
-    padding: 5px 10px;
-    border-radius: 5px;
+    top: 20px; /* Ruimte van boven */
+    left: 20px; /* Ruimte van links */
+    color: white; /* Witte tekst voor zichtbaarheid */
+    font-size: 20px; /* Grootte van de score tekst */
+    z-index: 15; /* Zorg dat het boven de overlay staat */
 }
 
 .volume-control {
@@ -89,18 +95,24 @@ body {
 }
 
 #overlay {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8); /* Donkere overlay */
     color: #FFFFFF; /* Witte tekst voor leesbaarheid */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    z-index: 10;
+    display: none; /* Standaard verborgen */
+    justify-content: center; /* Horizontaal centreren */
+    align-items: center; /* Verticaal centreren */
+    flex-direction: column; /* Stapel elementen in kolomrichting */
+    z-index: 10; /* Overlay komt boven andere elementen */
+}
+
+.button-container {
+    display: flex; /* Gebruik flexbox voor de knoppen */
+    justify-content: center; /* Horizontaal centreren */
+    margin-top: 5px; /* Ruimte tussen de vraag en de knoppen */
 }
 
 .pause-control {
@@ -113,4 +125,33 @@ body {
     cursor: pointer;
     color: #FFFFFF; /* Witte tekst voor het pauze-icoon */
     z-index: 10;
+}
+
+.answer {
+    background-color: #007BFF; /* Blauw voor de antwoordknoppen */
+    color: #FFFFFF; /* Witte tekst */
+    border: none;
+    padding: 10px 10px;
+    margin: 10px; /* Ruimte rond de knoppen */
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 18px;
+    width: 100px; /* Vaste breedte voor de knoppen */
+}
+
+.answer:hover {
+    background-color: #0056b3; /* Donkerder blauw bij hover */
+}
+
+.question {
+    margin: 10px; /* Ruimte rond de vraag */
+    text-align: center; /* Centrer de tekst */
+    font-size: 24px; /* Grootte van de vraag */
+}
+
+.message {
+    margin: 20px; /* Ruimte rond het bericht */
+    font-size: 18px; /* Grootte van het bericht */
+    color: yellow; /* Kleur van de tekst voor beter zichtbaarheid */
+    text-align: center; /* Centrer de tekst */
 }
