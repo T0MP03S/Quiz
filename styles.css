@@ -1,0 +1,101 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    background-color: #4D4D4D; /* Donkergrijs achtergrond voor defensiethema */
+    color: #FFFFFF; /* Witte tekst voor contrast */
+    font-family: 'Arial', sans-serif; /* Gebruik een simpel lettertype */
+}
+
+#video {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+
+#score {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #FFFFFF; /* Witte tekst voor score */
+    font-size: 24px;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.6); /* Donkere achtergrond voor leesbaarheid */
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.volume-control {
+    position: absolute;
+    bottom: 10px; /* Linksonder */
+    left: 60px; /* Ruimte voor pauzeknop */
+    z-index: 10;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #FFFFFF; /* Witte tekst voor het volume-icoon */
+}
+
+.slider-container {
+    display: none;
+    position: absolute;
+    bottom: 50px; /* Ruimte voor knoppen */
+    left: 10px; /* Ruimte voor knoppen */
+    z-index: 10;
+}
+
+.slider {
+    -webkit-appearance: none; /* Voor webkit browsers */
+    appearance: none; /* Voor andere browsers */
+    width: 200px; /* Breedte van de slider */
+    height: 10px; /* Hoogte van de slider */
+    background: #7D7D7D; /* Grijze balk voor de slider */
+    border-radius: 5px; /* Hoekjes van de slider afronden */
+    outline: none; /* Geen rand om de slider */
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Voor webkit browsers */
+    appearance: none; /* Voor andere browsers */
+    width: 20px; /* Breedte van de duim */
+    height: 20px; /* Hoogte van de duim */
+    background: #FFFFFF; /* Witte duim */
+    border-radius: 50%; /* Ronde duim */
+    cursor: pointer; /* Handcursor bij hover */
+}
+
+.slider::-moz-range-thumb {
+    width: 20px; /* Breedte van de duim */
+    height: 20px; /* Hoogte van de duim */
+    background: #FFFFFF; /* Witte duim */
+    border-radius: 50%; /* Ronde duim */
+    cursor: pointer; /* Handcursor bij hover */
+}
+
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Donkere overlay */
+    color: #FFFFFF; /* Witte tekst voor leesbaarheid */
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 10;
+}
+
+.pause-control {
+    position: absolute;
+    bottom: 10px; /* Linksonder */
+    left: 10px; /* Linksonder */
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #FFFFFF; /* Witte tekst voor het pauze-icoon */
+    z-index: 10;
+}

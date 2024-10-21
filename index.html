@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Quiz</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link naar de CSS -->
+</head>
+<body>
+
+    <div id="score">Score: 0</div>
+    <video id="video" autoplay>
+        <source src="intro.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <button id="volume-button" class="volume-control">🔊</button>
+    <div id="slider-container" class="slider-container">
+        <input type="range" id="volume-slider" class="slider" min="0" max="1" step="0.1" value="0.5">
+    </div>
+
+    <button id="pause-button" class="pause-control">⏸️</button> <!-- Pauzeknop -->
+
+    <div id="overlay">
+        <h2 class="question" id="question"></h2>
+        <button class="answer" onclick="checkAnswer(true)">Ja</button>
+        <button class="answer" onclick="checkAnswer(false)">Nee</button>
+    </div>
+
+    <script src="script.js"></script> <!-- Link naar de JavaScript -->
+</body>
+</html>
