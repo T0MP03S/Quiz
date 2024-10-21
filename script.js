@@ -15,14 +15,14 @@ let score = 0;
 const overlay = document.getElementById('overlay');
 const questionElement = document.getElementById('question');
 const video = document.getElementById('video');
-const messageElement = document.getElementById('message');
-const buttons = document.querySelectorAll('.answer');
+const startQuizButton = document.getElementById('start-quiz-button');
+const startQuizContainer = document.getElementById('start-quiz-container');
 
-video.volume = 0.5;
-
-video.onended = function() {
-    overlay.style.display = 'flex'; // Overlay zichtbaar maken
-    showQuestion();
+startQuizButton.onclick = function() {
+    startQuizContainer.style.display = 'none'; // Verberg de startknop
+    video.play().catch(error => {
+        console.error('Video kon niet worden afgespeeld:', error);
+    });
 };
 
 function showQuestion() {
