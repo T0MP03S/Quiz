@@ -8,26 +8,31 @@
 </head>
 <body>
 
-    <div id="score">Score: 0</div>
+
+    <div id="start-quiz-container">
+        <button id="start-quiz-button">Begin Quiz</button>
+    </div> 
+
     <video id="video" autoplay>
-        <source src="intro.webm" type="video/webm">
-        Your browser does not support the video tag.
+        <source src="intro.mp4" type="video/mp4">
+        Je browser ondersteunt de video tag niet.
     </video>
-    <div id="start-quiz-container" style="display: flex; justify-content: center; align-items: center; height: 100vh; position: absolute; width: 100%;">
-    <button id="start-quiz-button">Begin Quiz</button>
+   
+    
+    <div id="overlay" style="display: none;"> <!-- Zorg ervoor dat de overlay hier correct is -->
+        <div class="question" id="question"></div>
+        <div id="message" class="message"></div> <!-- Voeg dit toe -->
+        <div class="button-container">
+            <button class="answer" onclick="checkAnswer(true)">Ja</button>
+            <button class="answer" onclick="checkAnswer(false)">Nee</button>
+        </div>
     </div>
 
-    <button id="volume-button" class="volume-control">🔊</button>
-    <div id="slider-container" class="slider-container">
-        <input type="range" id="volume-slider" class="slider" min="0" max="1" step="0.1" value="0.5">
-    </div>
-
+    <div id="score">Score: 0</div> <!-- Score element -->
     <button id="pause-button" class="pause-control">⏸️</button> <!-- Pauzeknop -->
-
-    <div id="overlay">
-        <h2 class="question" id="question"></h2>
-        <button class="answer" onclick="checkAnswer(true)">Ja</button>
-        <button class="answer" onclick="checkAnswer(false)">Nee</button>
+    <button id="volume-button" class="volume-control">🔊</button> <!-- Geluidknop -->
+    <div id="slider-container" class="slider-container" style="display: none;">
+        <input type="range" id="volume-slider" class="slider" min="0" max="1" step="0.1" value="0.5">
     </div>
 
     <script src="script.js"></script> <!-- Link naar de JavaScript -->
