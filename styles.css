@@ -37,15 +37,6 @@ body {
     background-color: #45a049; /* Donkerder groen bij hover */
 }
 
-#score {
-    position: absolute;
-    top: 20px; /* Ruimte van boven */
-    left: 20px; /* Ruimte van links */
-    color: white; /* Witte tekst voor zichtbaarheid */
-    font-size: 20px; /* Grootte van de score tekst */
-    z-index: 15; /* Zorg dat het boven de overlay staat */
-}
-
 .volume-control {
     position: absolute;
     bottom: 10px; /* Linksonder */
@@ -95,18 +86,19 @@ body {
 }
 
 #overlay {
-    position: fixed;
+    display: none; /* Begin met verborgen */
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* Donkere overlay */
-    color: #FFFFFF; /* Witte tekst voor leesbaarheid */
-    display: none; /* Standaard verborgen */
-    justify-content: center; /* Horizontaal centreren */
-    align-items: center; /* Verticaal centreren */
-    flex-direction: column; /* Stapel elementen in kolomrichting */
-    z-index: 10; /* Overlay komt boven andere elementen */
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparante achtergrond */
+    color: white;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 20; /* Zorg ervoor dat het boven de video staat */
 }
 
 .button-container {
