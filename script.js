@@ -1,139 +1,171 @@
 const questions = [
-    { question: "Gelden de risico’s voor alle antenneparken?", correct: false, startTime: 5, endTime: 12 },
-    { question: "Hebben de EMV ook impact op insuline apparaat?", correct: true, startTime: 13, endTime: 20 },
-    { question: "Mag je vrijlopen in het antenneveld?", correct: false, startTime: 21, endTime: 28 },
-    { question: "Heb ik beschermende maatregelen nodig?", correct: true, startTime: 29, endTime: 36 },
-    { question: "Hebben de EMV ook impact op digitale gereedschap?", correct: true, startTime: 37, endTime: 44 },
-    { question: "Mag je in het zenderveld achter hekken (veiligheidscirkel) bevinden?", correct: false, startTime: 45, endTime: 52 },
-    { question: "Mag je alleen het antenneveld in?", correct: false, startTime: 53, endTime: 60 },
-    { question: "Als je honger hebt, mag je dan eten in het antenneveld?", correct: false, startTime: 61, endTime: 68 },
-    { question: "Hoef je de aanwijzingen van technisch personeel in het antenneveld niet op te volgen?", correct: false, startTime: 69, endTime: 76 }
+    { question: "Gelden de risico’s voor alle antenneparken?", correct: false, startTime: 0, endTime: 5 },
+    { question: "Hebben de EMV ook impact op insuline apparaat?", correct: true, startTime: 5, endTime: 10 },
+    { question: "Mag je vrijlopen in het antenneveld?", correct: false, startTime: 10, endTime: 15 },
+    { question: "Heb ik beschermende maatregelen nodig?", correct: true, startTime: 15, endTime: 20 },
+    { question: "Hebben de EMV ook impact op digitale gereedschap?", correct: true, startTime: 20, endTime: 25 },
+    { question: "Mag je in het zenderveld achter hekken (veiligheidscirkel) bevinden?", correct: false, startTime: 25, endTime: 30 },
+    { question: "Mag je alleen het antenneveld in?", correct: false, startTime: 30, endTime: 35 },
+    { question: "Als je honger hebt, mag je dan eten in het antenneveld?", correct: false, startTime: 35, endTime: 40 },
+    { question: "Hoef je de aanwijzingen van technisch personeel in het antenneveld niet op te volgen?", correct: false, startTime: 40, endTime: 45 }
 ];
 
-let currentQuestionIndex = 0;
-let score = 0;
-const overlay = document.getElementById('overlay');
-const questionElement = document.getElementById('question');
 const video = document.getElementById('video');
-const startQuizButton = document.getElementById('start-quiz-button');
+const overlay = document.getElementById('overlay');
 const startQuizContainer = document.getElementById('start-quiz-container');
+const questionElement = document.getElementById('question');
+const messageElement = document.getElementById('message');
+const buttons = document.querySelectorAll('.answer');
+let currentQuestionIndex = 0; 
+let score = 0; 
+let attempts = 0; // Aantal pogingen per vraag
 
-startQuizButton.onclick = function() {
-    startQuizContainer.style.display = 'none'; // Verberg de startknop
-    video.play().catch(error => {
-        console.error('Video kon niet worden afgespeeld:', error);
-    });
+// Functie om de quiz te starten
+document.getElementById('start-quiz-button').onclick = function() {
+    startQuizContainer.style.display = 'none'; 
+    video.play().catch(error => console.error('Video kon niet worden afgespeeld:', error));
 };
 
+// Event Listener voor wanneer de video eindigt
+video.onended = function() {
+    overlay.style.display = 'flex'; 
+    showQuestion(); 
+};
+
+// Functie om de vraag te tonen
 function showQuestion() {
     if (currentQuestionIndex < questions.length) {
         questionElement.textContent = questions[currentQuestionIndex].question;
-        messageElement.textContent = ""; // Wis het bericht voor de nieuwe vraag
+        video.pause(); 
+        attempts = 0; // Reset pogingen voor de nieuwe vraag
+        messageElement.textContent = ""; // Reset het bericht
+        buttons.forEach(button => button.disabled = false); // Schakel knoppen in
     } else {
-        showScore(); // Toon de score aan het einde
+        showScore(); 
     }
 }
 
+// Functie om de score te tonen en het formulier weer te geven
 function showScore() {
-    overlay.innerHTML = `<h2>Quiz voltooid!</h2><h1>Jouw score: ${score}</h1>`; // Score in het midden tonen
-    overlay.style.display = 'flex'; // Zorg ervoor dat de overlay zichtbaar is
+    overlay.innerHTML = `
+        <h2>Quiz voltooid!</h2>
+        <p>Je score: ${score}</p>
+        <label for="name">Naam:</label>
+        <input type="text" id="name" placeholder="Vul je naam in">
+        <label for="lastname">Achternaam:</label>
+        <input type="text" id="lastname" placeholder="Vul je achternaam in">
+        <button id="submit-button">Verstuur</button>
+        <button id="download-button" style="display:none;">Download PDF</button>
+    `;
+    overlay.style.display = 'flex'; 
+
+    // Event listener voor de verstuurknop
+    document.getElementById('submit-button').onclick = function() {
+        const name = document.getElementById('name').value;
+        const lastname = document.getElementById('lastname').value;
+        generatePDF(name, lastname);
+        document.getElementById('download-button').style.display = 'block'; // Laat de downloadknop zien
+    };
 }
 
+// Functie om een PDF te genereren
+function generatePDF(name, lastname) {
+    const { jsPDF } = window.jspdf; // Zorg ervoor dat jsPDF correct is geladen
+    const doc = new jsPDF();
+    doc.text(`Naam: ${name}`, 10, 10);
+    doc.text(`Achternaam: ${lastname}`, 10, 20);
+    doc.save('quiz_resultaat.pdf'); // Sla de PDF op
+}
+
+// Functie om het antwoord te controleren
 function checkAnswer(answer) {
     const correct = questions[currentQuestionIndex].correct;
-
-    // Schakel de knoppen uit
-    buttons.forEach(button => {
-        button.disabled = true; // Voorkom meerdere klikken
-    });
+    buttons.forEach(button => button.disabled = true);
 
     if (answer === correct) {
-        score += 10;
+        score += 10; 
         messageElement.textContent = "Correct!";
-        messageElement.style.color = "green"; // Groen voor correcte antwoorden
-    } else {
-        messageElement.textContent = "Fout! Je moet een stuk van de video opnieuw bekijken.";
-        messageElement.style.color = "red"; // Rood voor foute antwoorden
+        messageElement.style.color = "green";
+        document.getElementById('score').textContent = `Score: ${score}`;
         
-        // Wacht 3 seconden voordat je de overlay verbergt en het video-segment afspeelt
         setTimeout(() => {
-            overlay.style.display = 'none'; // Verberg de overlay
+            messageElement.textContent = ""; 
+            currentQuestionIndex++;
+            showQuestion(); 
+        }, 2000);
+    } else {
+        attempts++; // Verhoog het aantal pogingen
 
-            // Speel het video-segment af
-            const startTime = questions[currentQuestionIndex].startTime;
-            const endTime = questions[currentQuestionIndex].endTime;
-            video.currentTime = startTime; // Spring naar de aangegeven starttijd
-            video.play();
+        if (attempts === 1) {
+            // Bij de eerste fout
+            messageElement.textContent = "Fout! Je moet een stuk van de video opnieuw bekijken.";
+            messageElement.style.color = "red";
+            
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                const startTime = questions[currentQuestionIndex].startTime;
+                const endTime = questions[currentQuestionIndex].endTime;
+                video.currentTime = startTime; 
+                video.play();
 
-            // Stop de video na het eindtijd
-            const interval = setInterval(() => {
-                if (video.currentTime >= endTime) {
-                    video.pause(); // Pauzeer de video
-                    clearInterval(interval); // Stop de interval
+                const interval = setInterval(() => {
+                    if (video.currentTime >= endTime) {
+                        video.pause(); 
+                        clearInterval(interval);
+                        overlay.style.display = 'flex'; 
+                        messageElement.textContent = "Beantwoord de vraag opnieuw.";
+                        buttons.forEach(button => button.disabled = false); // Schakel knoppen in
+                    }
+                }, 100);
+            }, 3000); 
+        } else if (attempts === 2) {
+            // Bij de tweede fout
+            messageElement.textContent = "Je hebt deze vraag twee keer fout beantwoord. Kijk de gehele video opnieuw.";
+            buttons.forEach(button => button.disabled = true); 
 
-                    // Toon de overlay weer voor herbeantwoording
-                    overlay.style.display = 'flex'; 
-                    messageElement.textContent = "Beantwoord de vraag opnieuw.";
-                    
-                    // Zet de knoppen weer aan
-                    buttons.forEach(button => {
-                        button.disabled = false; // Zet de knoppen weer aan
-                    });
-                }
-            }, 100); // Controleer elke 100 ms
-        }, 3000); // Wacht 3 seconden voor het verbergen van de overlay en afspelen van de video
-
-        return; // Stop de functie hier om de score niet te verhogen
+            setTimeout(() => {
+                // Reset de quiz
+                currentQuestionIndex = 0; // Zet de huidige vraag terug naar 0
+                score = 0; // Reset de score
+                document.getElementById('score').textContent = `Score: ${score}`; // Update de score weergave
+                video.currentTime = 0; // Zet de video tijd terug naar het begin
+                video.play(); // Speel de video opnieuw af
+                overlay.style.display = 'none'; // Verberg de overlay
+                buttons.forEach(button => button.disabled = false); // Schakel knoppen in voor de nieuwe quiz
+            }, 3000); 
+        } else {
+            // Bij meer dan twee fouten
+            messageElement.textContent = "Beantwoord de vraag opnieuw.";
+            buttons.forEach(button => button.disabled = false); // Schakel knoppen in
+        }
     }
-
-    // Werk de score bij in de UI
-    document.getElementById('score').textContent = `Score: ${score}`;
-
-    // Ga na 2 seconden verder naar de volgende vraag
-    setTimeout(() => {
-        // Wis het bericht
-        messageElement.textContent = ""; 
-        // Zet de knoppen weer aan
-        buttons.forEach(button => {
-            button.disabled = false;
-        });
-
-        currentQuestionIndex++; // Verhoog de index naar de volgende vraag
-        showQuestion(); // Toon de volgende vraag
-    }, 2000); // Wacht 2 seconden voordat je de volgende vraag toont
 }
 
-// Pauzeer de video
+// Pauzeer of speel de video af
 document.getElementById('pause-button').onclick = function() {
     if (video.paused) {
         video.play();
-        this.textContent = "⏸️"; // Pauze-icoon
+        this.textContent = "⏸️"; 
     } else {
         video.pause();
-        this.textContent = "▶️"; // Speel-icoon
+        this.textContent = "▶️"; 
     }
 };
 
-// Volume toggle functie
+// Volume knoppen
 document.getElementById('volume-button').onclick = function() {
     const sliderContainer = document.getElementById('slider-container');
     sliderContainer.style.display = sliderContainer.style.display === 'block' ? 'none' : 'block';
 };
 
-// Volume instellen bij schuiven
 document.getElementById('volume-slider').oninput = function() {
-    video.volume = this.value; // Stel het volume in op de waarde van de slider
-    document.getElementById('volume-button').textContent = video.volume > 0 ? "🔊" : "🔇"; // Update het icoon
+    video.volume = this.value; 
+    document.getElementById('volume-button').textContent = video.volume > 0 ? "🔊" : "🔇"; 
 };
 
-// Sluit de slider als de muis ergens anders klikt
+// Sluit volume slider bij klikken buiten het element
 window.onclick = function(event) {
     if (!event.target.matches('#volume-button') && !event.target.matches('#volume-slider')) {
         document.getElementById('slider-container').style.display = 'none';
     }
 };
-
-// Begin met het afspelen van de video
-video.play().catch(error => {
-    console.error('Video kon niet worden afgespeeld:', error);
-});
