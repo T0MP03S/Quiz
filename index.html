@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Quiz</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link naar de CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mobile-styles.css" media="only screen and (max-width: 768px)">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
@@ -15,28 +16,27 @@
     </div> 
 
     <video id="video">
-        <source src="intro.webm" type="video/webm">
+        <source src="intro.mp4" type="video/mp4">
         Je browser ondersteunt de video tag niet.
     </video>
 
-    <!-- Container voor de bedieningselementen -->
     <div class="control-container">
-        <button id="pause-button" class="pause-control"><i class="fas fa-play"></i></button> <!-- Pauzeknop -->
-        <button id="volume-button" class="volume-control"><i class="fas fa-volume-up"></i></button> <!-- Geluidknop -->
+        <button id="pause-button" class="pause-control"><i class="fas fa-play"></i></button> 
+        <button id="volume-button" class="volume-control"><i class="fas fa-volume-up"></i></button>
     </div>
     <div id="slider-container" class="slider-container" style="display: none;">
         <input type="range" id="volume-slider" class="slider" min="0" max="1" step="0.1" value="0.5">
     </div>
 
-    <div id="overlay" style="display: none;"> <!-- Zorg ervoor dat de overlay hier correct is -->
+    <div id="overlay" style="display: none;"> 
         <div class="question" id="question"></div>
-        <div id="message" class="message"></div> <!-- Voeg dit toe -->
+        <div id="message" class="message"></div>
         <div class="button-container">
             <button class="answer" onclick="checkAnswer(true)">Ja</button>
             <button class="answer" onclick="checkAnswer(false)">Nee</button>
         </div>
     </div>
 
-    <script src="script.js"></script> <!-- Link naar de JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
