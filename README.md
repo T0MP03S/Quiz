@@ -1,1 +1,1 @@
-Check the site here > https://bordersmp.nl/
+Check the site here > https://bordersmp.nl/Quiz
