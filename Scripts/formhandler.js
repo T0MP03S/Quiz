@@ -23,7 +23,7 @@ function generatePDF(firstName, lastName) {
     doc.rect(0, 0, 148.5, 420, 'F'); 
 
     const img = new Image();
-    img.src = './Media/logo.png';
+    img.src = './Media/images/logo.png';
 
     img.onload = function() {
         const declarationText = window.currentLanguage === 'en' ? 'The Ministry of Defence hereby declares that:' : 'Het Ministerie van Defensie verklaart hierbij dat:';

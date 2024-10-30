@@ -2,15 +2,20 @@ body {
     margin: 0;
     overflow: hidden;
     position: relative;
-    background-color: #1C1C1C;
+    background-color: #000000;
     color: #FFFFFF;
     font-family: 'Arial', sans-serif;
 }
 
 #video {
-    width: 100%;
+    width: auto;
     height: 100vh;
-    object-fit: cover;
+    object-fit: contain;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #000000;
 }
 
 #start-quiz-container, #herhaal-quiz-container {
@@ -61,7 +66,6 @@ body {
     height: 50px;
     background-size: 60%;
     background-repeat: no-repeat;
-    background-size: contain;
     background-position: center;
     border: none;
     cursor: pointer;
@@ -118,12 +122,11 @@ body {
 
 #overlay {
     display: flex;
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    transform: translate(-50%, -50%);
     background: rgba(0, 0, 51, 0.8);
     color: white;
     text-align: center;
@@ -296,16 +299,12 @@ label {
     }
 
     #video {
-        width: 90%;
-        height: auto;
+        width: 100vw;
+        height: 100vh;
         position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        max-width: 100%;
-        max-height: 60vh;
-        border: 3px solid #003366;
-        border-radius: 10px;
+        top: 0;
+        left: 0;
+        object-fit: cover;
         z-index: 5;
     }
 

@@ -1,4 +1,4 @@
-import { showForm } from './formhandler.js'; // Voeg deze import toe bovenaan je bestand
+import { showForm } from './formhandler.js'; 
 
 window.questions = {
     nl: [
@@ -11,7 +11,7 @@ window.questions = {
         { 
             question: "Is het raadzaam vooraf aan je begeleider te melden als je een medisch hulpmiddel gebruikt?", 
             explanation: "Het is verstandig om aan je begeleider te melden als je een medisch hulpmiddel gebruikt. Op die manier kunnen wij jouw werk zo veilig mogelijk maken wanneer je op het antennepark bent.", 
-            video: "./Media/Question_parts/part_2.mp4", 
+            video: "./Media/Question_parts/part_1.mp4", 
             correct: true
         },
         { 
@@ -43,7 +43,7 @@ window.questions = {
         { 
             question: "Is it a good idea to notify your supervisor beforehand that you are using a medical device?", 
             explanation: "It is a good idea to tell your supervisor that you are using a medical device. That way they can make your working conditions as safe as possible while you are in the antenna park.", 
-            video: "./Media/Question_parts_EN/part_2_EN.mp4", 
+            video: "./Media/Question_parts_EN/part_1_EN.mp4", 
             correct: true
         },
         { 
@@ -69,7 +69,7 @@ window.questions = {
 
 window.checkAnswer = checkAnswer;
 
-// Deze functie start de quiz
+
 export function startQuiz() {
     const startQuizContainer = document.getElementById('start-quiz-container');
     const video = document.getElementById('video');
@@ -90,7 +90,7 @@ export function startQuiz() {
     }
 }
 
-// Functie om het icoon van de pauze-/afspeelknop bij te werken
+
 export function updatePauseButtonIcon(isPlaying) {
     const pauseButton = document.getElementById('pause-button');
     if (pauseButton) {
@@ -104,7 +104,7 @@ export function updatePauseButtonIcon(isPlaying) {
     }
 }
 
-// Functie om de volgende vraag te tonen
+
 export function showQuestion() {
     if (!window.currentLanguage) {
         console.warn("De huidige taal (window.currentLanguage) is niet ingesteld. Standaard taal wordt ingesteld op 'nl'.");
@@ -118,7 +118,7 @@ export function showQuestion() {
     const yesButton = document.getElementById('yes-button');
     const noButton = document.getElementById('no-button');
 
-    // Verander de tekst van de ja/nee knoppen op basis van de huidige taal
+    
     if (yesButton && noButton) {
         if (window.currentLanguage === 'nl') {
             yesButton.textContent = 'Ja';
@@ -148,25 +148,25 @@ export function showQuestion() {
             console.error("Het video-element is niet gevonden in de DOM.");
         }
     } else {
-        // Toon formulier wanneer de quiz voltooid is
+        
         showForm();
     }
 
-    // Schakel de knoppen weer in na het tonen van de vraag
+    
     const buttons = document.querySelectorAll('.answer');
     buttons.forEach(button => {
         button.disabled = false;
         button.style.display = 'inline-block';
     });
 
-    // Verwijder de knop voor de volgende vraag
+    
     const nextButton = document.getElementById('next-button');
     if (nextButton) {
         nextButton.remove();
     }
 }
 
-// Functie om antwoorden te controleren
+
 export function checkAnswer(answer) {
     const questions = window.questions[window.currentLanguage] || [];
     let currentQuestionIndex = window.currentQuestionIndex || 0;
@@ -175,14 +175,14 @@ export function checkAnswer(answer) {
     const messageElement = document.getElementById('message');
     const overlay = document.getElementById('overlay');
     const questionElement = document.getElementById('question');
-    const buttons = document.querySelectorAll('.answer'); // Alle antwoordknoppen
+    const buttons = document.querySelectorAll('.answer'); 
 
-    // Schakel de knoppen uit tijdens de feedback
+    
     buttons.forEach(button => {
         button.disabled = true;
     });
 
-    // Verwijder de vraag en knoppen bij een antwoord
+    
     if (questionElement) {
         questionElement.textContent = "";
     }
@@ -197,16 +197,16 @@ export function checkAnswer(answer) {
                 <span style="color: white;">${questions[currentQuestionIndex].explanation}</span>`;
         }        
 
-        // Toon knop om door te gaan naar de volgende vraag
+        
         const nextButton = document.createElement('button');
-        nextButton.textContent = window.currentLanguage === 'en' ? 'Next Question' : 'Volgende vraag';
+        nextButton.textContent = currentQuestionIndex === questions.length - 1 ? (window.currentLanguage === 'en' ? 'End' : 'Einde') : (window.currentLanguage === 'en' ? 'Next Question' : 'Volgende vraag');
         nextButton.id = 'next-button';
         nextButton.className = 'next-question-button';
         nextButton.addEventListener('click', () => {
             currentQuestionIndex++;
-            window.currentQuestionIndex = currentQuestionIndex; // Bijwerken in de globale scope
+            window.currentQuestionIndex = currentQuestionIndex; 
             if (messageElement) {
-                messageElement.textContent = ""; // Reset het bericht
+                messageElement.textContent = ""; 
             }
             if (overlay) {
                 overlay.style.display = 'none';
@@ -220,7 +220,7 @@ export function checkAnswer(answer) {
     }
 }
 
-// Functie om een fout antwoord af te handelen
+
 export function handleIncorrectAnswer(questionNumber) {
     const messageElement = document.getElementById('message');
     const overlay = document.getElementById('overlay');
@@ -233,11 +233,11 @@ export function handleIncorrectAnswer(questionNumber) {
         if (overlay) {
             overlay.style.display = 'none';
         }
-        showRetryContainer(questionNumber); // Speel het specifieke segment af
+        showRetryContainer(questionNumber); 
     }, 3000);
 }
 
-// Functie om een videosegment af te spelen
+
 export function replayVideoSegment(questionNumber) {
     const questions = window.questions[window.currentLanguage] || [];
     const video = document.getElementById('video');
@@ -269,13 +269,13 @@ export function showRetryContainer(questionNumber) {
         return;
     }
 
-    // Maak de herhaal-quiz-container zichtbaar
+    
     retryContainer.style.display = 'flex';
 
     const retryButton = document.createElement('button');
     retryButton.textContent = window.currentLanguage === 'en' ? 'Retry Segment' : 'Herhaal stukje';
     retryButton.id = 'retry-button';
-    retryButton.className = 'start-quiz-button'; // Gebruik dezelfde CSS-styling als de start-knop
+    retryButton.className = 'start-quiz-button'; 
     retryButton.addEventListener('click', () => {
         console.log("Retry-knop aangeklikt.");
         retryContainer.style.display = 'none';
@@ -287,7 +287,7 @@ export function showRetryContainer(questionNumber) {
     console.log("Retry-knop toegevoegd aan herhaal-quiz-container.");
 }
 
-// Functie om de overlay en knoppen bij te werken na het afspelen van een segment
+
 export function updateOverlayAndButtons() {
     const overlay = document.getElementById('overlay');
     const messageElement = document.getElementById('message');
@@ -303,13 +303,13 @@ export function updateOverlayAndButtons() {
         messageElement.innerHTML = `<span style="color: red;">${window.currentLanguage === 'en' ? 'Answer the question again.' : 'Beantwoord de vraag opnieuw.'}</span>`;
     }
 
-    // Schakel de knoppen weer in na het afspelen van een segment
+    
     buttons.forEach(button => {
         button.disabled = false;
     });
 }
 
-// Functie om de quiz te resetten
+
 export function resetQuiz() {
     window.currentQuestionIndex = 0;
     window.score = 0;
