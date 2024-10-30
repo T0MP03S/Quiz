@@ -2,12 +2,68 @@ import { showForm } from './formhandler.js'; // Voeg deze import toe bovenaan je
 
 window.questions = {
     nl: [
-        { question: "Mag je vrijlopen in het antenneveld?", correct: false, video: "./Media/Question_parts/part_1.mp4" },
-        { question: "Gelden de risico’s voor alle antenneparken?", correct: false, video: "./Media/Question_parts/part_2.mp4" },
+        { 
+            question: "Kunnen elektromagnetische velden invloed hebben op medische hulpmiddelen?", 
+            explanation: "Elektromagnetische velden kunnen invloed hebben op verschillende medische hulpmiddelen, denk aan pacemakers, hoortoestellen, insulinepompen en metalen protheses. Als je gebruik maakt van een van deze, of andere, medische hulpmiddelen, meld het bij je begeleider.", 
+            video: "./Media/Question_parts/part_1.mp4", 
+            correct: true
+        },
+        { 
+            question: "Is het raadzaam vooraf aan je begeleider te melden als je een medisch hulpmiddel gebruikt?", 
+            explanation: "Het is verstandig om aan je begeleider te melden als je een medisch hulpmiddel gebruikt. Op die manier kunnen wij jouw werk zo veilig mogelijk maken wanneer je op het antennepark bent.", 
+            video: "./Media/Question_parts/part_2.mp4", 
+            correct: true
+        },
+        { 
+            question: "Mag je zonder begeleiding het antenneveld in?", 
+            explanation: "Zonder begeleiding mag je niet het antenneveld in. Onze begeleiders zijn opgeleid om jou veilig te houden tijdens je werkzaamheden.", 
+            video: "./Media/Question_parts/part_3.mp4", 
+            correct: false
+        },
+        { 
+            question: "Kan de apparatuur waarmee je werkt verstoord raken?", 
+            explanation: "Elektromagnetische velden kunnen invloed hebben op apparatuur waarmee je werkt, bijvoorbeeld op hoogwerkers, hijskranen, elektrische gereedschap en meetapparatuur. Om te voorkomen dat je apparatuur tijdens je werkzaamheden verstoord raakt, is het raadzaam om dit te melden bij je begeleider, zodat er rekening mee gehouden kan worden.", 
+            video: "./Media/Question_parts/part_4.mp4", 
+            correct: true
+        },
+        { 
+            question: "Mag je een aanwijzing van je begeleider negeren?", 
+            explanation: "Onze begeleiders zijn ervoor om jou en je collega’s zo veilig mogelijk te laten werken. Wanneer zij een aanwijzing geven, is het verplicht die op te volgen.", 
+            video: "./Media/Question_parts/part_5.mp4", 
+            correct: false
+        }
     ],
     en: [
-        { question: "Can you walk freely in the antenna field?", correct: false, video: "./Media/Question_parts_EN/part_1_EN.mp4" },
-        { question: "Do the risks apply to all antenna parks?", correct: false, video: "./Media/Question_parts_EN/part_2_EN.mp4" },
+        { 
+            question: "Can electromagnetic fields affect medical devices?", 
+            explanation: "Electromagnetic fields can affect a number of medical devices, such as pacemakers, hearing aids, insulin pumps and metal prosthetics. If you use one of these or other medical devices, notify your supervisor.", 
+            video: "./Media/Question_parts_EN/part_1_EN.mp4", 
+            correct: true
+        },
+        { 
+            question: "Is it a good idea to notify your supervisor beforehand that you are using a medical device?", 
+            explanation: "It is a good idea to tell your supervisor that you are using a medical device. That way they can make your working conditions as safe as possible while you are in the antenna park.", 
+            video: "./Media/Question_parts_EN/part_2_EN.mp4", 
+            correct: true
+        },
+        { 
+            question: "Are you allowed in the antenna park unsupervised?", 
+            explanation: "You are not allowed in the antenna park unsupervised. Our supervisors are trained to keep you safe during your time working there.", 
+            video: "./Media/Question_parts_EN/part_3_EN.mp4", 
+            correct: false
+        },
+        { 
+            question: "Can the electromagnetic fields cause your tools to malfunction?", 
+            explanation: "Electromagnetic fields can affect the tools you are working with: for example, work platforms, cranes, electric tools and measuring devices. To prevent your gear from malfunctioning during your work, tell your supervisor about your tools so they can be kept in mind.", 
+            video: "./Media/Question_parts_EN/part_4_EN.mp4", 
+            correct: true
+        },
+        { 
+            question: "Are you allowed to ignore instructions from a supervisor?", 
+            explanation: "Our supervisors are here to make sure you and your colleagues’ working conditions are as safe as possible. When they give you instructions, you have to follow them.", 
+            video: "./Media/Question_parts_EN/part_5_EN.mp4", 
+            correct: false
+        }
     ]
 };
 
@@ -100,7 +156,14 @@ export function showQuestion() {
     const buttons = document.querySelectorAll('.answer');
     buttons.forEach(button => {
         button.disabled = false;
+        button.style.display = 'inline-block';
     });
+
+    // Verwijder de knop voor de volgende vraag
+    const nextButton = document.getElementById('next-button');
+    if (nextButton) {
+        nextButton.remove();
+    }
 }
 
 // Functie om antwoorden te controleren
@@ -111,6 +174,7 @@ export function checkAnswer(answer) {
 
     const messageElement = document.getElementById('message');
     const overlay = document.getElementById('overlay');
+    const questionElement = document.getElementById('question');
     const buttons = document.querySelectorAll('.answer'); // Alle antwoordknoppen
 
     // Schakel de knoppen uit tijdens de feedback
@@ -118,15 +182,27 @@ export function checkAnswer(answer) {
         button.disabled = true;
     });
 
+    // Verwijder de vraag en knoppen bij een antwoord
+    if (questionElement) {
+        questionElement.textContent = "";
+    }
+    buttons.forEach(button => {
+        button.style.display = 'none';
+    });
+
     if (answer === correct) {
         window.score = (window.score || 0) + 10;
-        if (messageElement) {
-            messageElement.textContent = "Correct!";
-            messageElement.style.color = "green";
-        }
+        if (messageElement) { 
+            messageElement.innerHTML = `<strong style="color: green;">Correct!</strong><br><br>
+                <span style="color: white;">${questions[currentQuestionIndex].explanation}</span>`;
+        }        
 
-        // Ga verder naar de volgende vraag na een korte vertraging
-        setTimeout(() => {
+        // Toon knop om door te gaan naar de volgende vraag
+        const nextButton = document.createElement('button');
+        nextButton.textContent = window.currentLanguage === 'en' ? 'Next Question' : 'Volgende vraag';
+        nextButton.id = 'next-button';
+        nextButton.className = 'next-question-button';
+        nextButton.addEventListener('click', () => {
             currentQuestionIndex++;
             window.currentQuestionIndex = currentQuestionIndex; // Bijwerken in de globale scope
             if (messageElement) {
@@ -136,7 +212,9 @@ export function checkAnswer(answer) {
                 overlay.style.display = 'none';
             }
             showQuestion();
-        }, 2000);
+        });
+
+        overlay.appendChild(nextButton);
     } else {
         handleIncorrectAnswer(currentQuestionIndex);
     }
@@ -148,8 +226,7 @@ export function handleIncorrectAnswer(questionNumber) {
     const overlay = document.getElementById('overlay');
 
     if (messageElement) {
-        messageElement.textContent = window.currentLanguage === 'en' ? 'Wrong! You need to rewatch a segment of the video.' : 'Fout! Je moet een stuk van de video opnieuw bekijken.';
-        messageElement.style.color = "red";
+        messageElement.innerHTML = `<strong style="color: red;">${window.currentLanguage === 'en' ? 'Wrong! You need to rewatch a segment of the video.' : 'Fout! Je moet een stuk van de video opnieuw bekijken.'}</strong>`;
     }
 
     setTimeout(() => {
@@ -223,8 +300,7 @@ export function updateOverlayAndButtons() {
     }
 
     if (messageElement) {
-        messageElement.textContent = window.currentLanguage === 'en' ? 'Answer the question again.' : 'Beantwoord de vraag opnieuw.';
-        messageElement.style.color = "red";
+        messageElement.innerHTML = `<span style="color: red;">${window.currentLanguage === 'en' ? 'Answer the question again.' : 'Beantwoord de vraag opnieuw.'}</span>`;
     }
 
     // Schakel de knoppen weer in na het afspelen van een segment
