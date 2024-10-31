@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const languageButtons = document.querySelectorAll('.language-button');
 
     
-    video.src = './Media/Video.mp4'; 
+    video.src = './Media/Video.webm'; 
     video.volume = 1;
 
     
@@ -121,15 +121,15 @@ window.setLanguage = function(language) {
     const videoElement = document.getElementById('video');
     const startQuizButton = document.getElementById('start-quiz-button');
     if (language === 'nl') {
-        videoElement.src = './Media/Video.mp4';
+        videoElement.src = './Media/Video.webm';
         if (startQuizButton) {
             startQuizButton.textContent = 'Begin video';
         }
     } else if (language === 'en') {
-        videoElement.src = './Media/Video_EN.mp4';
+        videoElement.src = './Media/Video_EN.webm';
         videoElement.onerror = function() {
             console.warn("Engelse video niet gevonden of kan niet worden afgespeeld. Gebruik de Nederlandse versie als fallback.");
-            videoElement.src = './Media/Video.mp4';
+            videoElement.src = './Media/Video.webm';
         };
         if (startQuizButton) {
             startQuizButton.textContent = 'Start video';
