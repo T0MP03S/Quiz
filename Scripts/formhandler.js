@@ -19,14 +19,14 @@ function generatePDF(firstName, lastName) {
         format: 'a3' 
     });
 
-    doc.setFillColor(143, 202, 231); 
+    doc.setFillColor('#e17000'); 
     doc.rect(0, 0, 148.5, 420, 'F'); 
 
     const img = new Image();
     img.src = './Media/images/logo.png';
 
     img.onload = function() {
-        const declarationText = window.currentLanguage === 'en' ? 'The Ministry of Defence hereby declares that:' : 'Het Ministerie van Defensie verklaart hierbij dat:';
+        const declarationText = window.currentLanguage === 'en' ? 'The VGM IT Infra team hereby declares that:' : 'Het team VGM IT Infra verklaart hierbij dat:';
         const quizText = window.currentLanguage === 'en' ? 'has successfully completed the Electromagnetic Fields questionnaire.' : 'De vragenlijst Elektromagnetische Velden correct heeft ingevuld.';
         const certificateTitle = window.currentLanguage === 'en' ? 'Certificate' : 'Certificaat';
         const imgWidth = 90; 
@@ -66,10 +66,16 @@ function generatePDF(firstName, lastName) {
         });
 
         textY += 30;
-        const currentDate = new Date().toLocaleDateString();
-        const currentTime = new Date().toLocaleTimeString();
+        const currentDate = new Date();
+        const currentDateString = currentDate.toLocaleDateString();
+        const currentTime = currentDate.toLocaleTimeString();
+        const validityDate = new Date(currentDate.setMonth(currentDate.getMonth() + 3)).toLocaleDateString();
         doc.setFontSize(14);
-        doc.text(`${currentDate}, ${currentTime}`, textX, textY);
+        doc.text(`${currentDateString}, ${currentTime}`, textX, textY);
+
+        textY += 10;
+        const validityText = window.currentLanguage === 'en' ? `Valid until: ${validityDate}` : `Geldig tot: ${validityDate}`;
+        doc.text(validityText, textX, textY);
 
         doc.save('certificaat.pdf');
     };
@@ -85,7 +91,6 @@ export function showForm() {
     const lastNamePlaceholder = window.currentLanguage === 'en' ? 'Enter your last name' : 'Vul je achternaam in';
     const generatePDFButton = window.currentLanguage === 'en' ? 'Generate PDF' : 'Genereer PDF';
 
-    //<p>${scoreText} ${window.score || 0}</p>
     overlay.innerHTML = `
         <h2>${formTitle}</h2>
         <label for="firstName">${firstNameLabel}</label>
